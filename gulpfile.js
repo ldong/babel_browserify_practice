@@ -13,7 +13,18 @@ gulp.task('build', function(){
   .transform(babelify)
   .bundle()
   .pipe(source('app.bundle.js'))
-  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.dest('./dist'))
   ;
-
 });
+
+gulp.task('copy', function(){
+  gulp.src('client/index.html')
+  .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('watch', function(){
+  gulp.watch('client/**/*.js', ['build']);
+  gulp.watch('client/*.html', ['copy']);
+});
+
+gulp.task('default', ['copy', 'build', 'watch']);
